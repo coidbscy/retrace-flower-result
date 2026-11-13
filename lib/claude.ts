@@ -58,20 +58,21 @@ function isValidAnalysis(value: unknown): value is Analysis {
 async function requestAnalysisOnce(
   answers: AnswerItem[],
 ): Promise<Analysis | null> {
-  const response = await client.messages.create({
-    model: MODEL,
-    max_tokens: 2048,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: "user", content: buildUserPrompt(answers) }],
-  });
-
-  const textBlock = response.content.find((b) => b.type === "text");
-  if (!textBlock || textBlock.type !== "text") return null;
-
   try {
+    const response = await client.messages.create({
+      model: MODEL,
+      max_tokens: 2048,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: "user", content: buildUserPrompt(answers) }],
+    });
+
+    const textBlock = response.content.find((b) => b.type === "text");
+    if (!textBlock || textBlock.type !== "text") return null;
+
     const parsed = JSON.parse(extractJsonText(textBlock.text));
     return isValidAnalysis(parsed) ? parsed : null;
-  } catch {
+  } catch (error) {
+    console.error("Claude 분석 요청 실패:", error);
     return null;
   }
 }
