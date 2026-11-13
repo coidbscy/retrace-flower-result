@@ -49,7 +49,16 @@ export default function FlowerImage({
           alt={flower.name}
           width={size}
           height={size}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            // 가장자리가 또렷하게 잘리지 않고 안쪽 배경(paper)색으로 서서히 스며들도록.
+            WebkitMaskImage:
+              "radial-gradient(circle, #000 52%, rgba(0,0,0,0.6) 68%, transparent 86%)",
+            maskImage:
+              "radial-gradient(circle, #000 52%, rgba(0,0,0,0.6) 68%, transparent 86%)",
+          }}
           onError={() => setImageFailed(true)}
         />
       )}
