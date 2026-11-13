@@ -24,6 +24,20 @@ RE:TRACE 관람객이 질문에 답변을 마친 뒤 QR을 찍으면 폰에서 �
 
 꽃말이나 설명 문구를 고치고 싶으면 `lib/flowers.ts` 파일 하나만 수정하면 됩니다.
 
+## 돈 안 쓰고 테스트하는 법 (ANALYSIS_MODE=mock)
+
+Claude API는 사용한 만큼 과금되는 유료 서비스라, 결제 전에 화면 흐름만 먼저 확인하고 싶다면 Vercel 환경변수에 `ANALYSIS_MODE`를 `mock`으로 설정하세요.
+
+```
+vercel env add ANALYSIS_MODE production --value "mock" --yes
+vercel env add ANALYSIS_MODE preview --value "mock" --yes
+vercel env add ANALYSIS_MODE development --value "mock" --yes
+```
+
+이렇게 하면 Claude를 전혀 호출하지 않고, 꽃 하나를 골라 "테스트 모드 예시 문장"이 담긴 가짜 결과를 보여줍니다. `/test` → `/r/[id]` → `/archive`까지 전체 화면 흐름과 애니메이션을 비용 없이 확인할 수 있어요.
+
+실제 Claude 분석을 쓰려면, Anthropic 콘솔에서 크레딧을 충전한 뒤 `ANALYSIS_MODE` 환경변수를 지우면 됩니다 (`vercel env rm ANALYSIS_MODE production` 등).
+
 ---
 
 ## 완성 후 순서대로 하면 되는 일

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requestAnalysis } from "@/lib/claude";
+import { generateMockAnalysis } from "@/lib/mockAnalysis";
 import { redis, resultKey, RESULT_TTL_SECONDS } from "@/lib/redis";
 import type { ResultRecord } from "@/lib/types";
 
@@ -26,7 +27,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ analysis: record.analysis });
   }
 
-  const analysis = await requestAnalysis(record.answers);
+  // ANALYSIS_MODE=mock이면 Claude API를 호출하지 않고 비용 없이 테스트할 수 있어요.
+  const analysis =
+    process.env.ANALYSIS_MODE === "mock"
+      ? generateMockAnalysis(record.answers)
+      : await requestAnalysis(record.answers);
 
   if (!analysis) {
     return NextResponse.json(
