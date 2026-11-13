@@ -1,49 +1,97 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --color-ivory: #fbf6e6;
+  --color-paper: #fffdf5;
+  --color-ink: #2b2416;
+  --color-ink-soft: #5c5240;
+  --color-line: #e6dcc0;
+  --color-brown: #8a6a2f;
+  --color-yellow: #ffd400;
+  --color-yellow-deep: #f2c200;
+  --color-yellow-pale: #fff3a8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --font-sans: "Gowun Dodum", "Noto Sans KR", system-ui, sans-serif;
+  --font-serif: "Gowun Batang", "Noto Serif KR", Georgia, serif;
+  --font-display: "Fraunces", "Gowun Batang", Georgia, serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html,
+body {
   padding: 0;
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+body {
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes bloom {
+  0% {
+    transform: scale(0.82);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.6), 0 10px 26px -14px rgba(43, 36, 22, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 212, 0, 0), 0 10px 26px -14px rgba(43, 36, 22, 0.4);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

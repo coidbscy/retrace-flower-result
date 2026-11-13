@@ -1,69 +1,53 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        padding: "0 24px",
+        gap: 16,
+      }}
+    >
+      <h1 style={{ fontFamily: "var(--font-display)", fontSize: 28 }}>
+        RE:TRACE · 꽃 결과
+      </h1>
+      <p style={{ color: "var(--color-ink-soft)", maxWidth: 360 }}>
+        RE:TRACE에서 답변을 마친 뒤 받은 QR을 찍으면, 이곳에서 당신의 답변이
+        피워낸 꽃을 확인할 수 있어요.
+      </p>
+      <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+        <Link
+          href="/test"
+          style={{
+            padding: "10px 20px",
+            borderRadius: 999,
+            background: "var(--color-yellow)",
+            color: "var(--color-ink)",
+            fontWeight: 600,
+            textDecoration: "none",
+          }}
+        >
+          테스트 페이지
+        </Link>
+        <Link
+          href="/archive"
+          style={{
+            padding: "10px 20px",
+            borderRadius: 999,
+            border: "1px solid var(--color-line)",
+            color: "var(--color-ink)",
+            textDecoration: "none",
+          }}
+        >
+          보관함
+        </Link>
+      </div>
+    </main>
   );
 }
