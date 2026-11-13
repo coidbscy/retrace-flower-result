@@ -19,13 +19,13 @@ export function generateMockAnalysis(answers: AnswerItem[]): Analysis {
 
   return {
     flower: flowerId,
-    connection: `"${firstAnswer}"라고 말씀해주신 부분이 ${flower.name}의 꽃말인 '${flower.meaning}'과 닮아 있었어요. (테스트 모드로 생성된 예시 문장이에요.) 실제 서비스에서는 Claude가 답변 전체를 읽고 이 문장을 새로 써드려요.`,
-    who: `당신은 ${flower.forWhom}에 가까운 사람인 것 같아요. 이 문단은 테스트 모드 예시 문장이라 실제 분석과는 달라요. ANALYSIS_MODE를 끄면 Claude가 답변을 바탕으로 진짜 문장을 만들어드립니다.`,
+    connection: `"${firstAnswer}"라는 말씀이 ${flower.name}의 꽃말, '${flower.meaning}'과 닮아 있어요. (테스트 모드 예시 문장입니다.)`,
+    who: `당신은 ${flower.forWhom}에 가까운 사람이에요. (테스트 모드 예시 문장입니다.)`,
     strengths: [
-      "테스트 모드 예시 장점 1 (실제로는 답변에서 뽑아낸 장점이 들어가요).",
-      "테스트 모드 예시 장점 2 입니다.",
-      "테스트 모드 예시 장점 3 입니다.",
+      "테스트 모드 예시 장점 1입니다.",
+      "테스트 모드 예시 장점 2입니다.",
+      "테스트 모드 예시 장점 3입니다.",
     ],
-    potential: `${flower.name}처럼, 당신에게도 분명한 가능성이 있어요. 이 문단 역시 테스트 모드 예시이며, 실제 배포 시에는 Claude API가 답변에 근거해 작성합니다.`,
+    potential: `${flower.name}처럼, 당신에게도 분명한 가능성이 있어요. (테스트 모드 예시 문장입니다.)`,
   };
 }
