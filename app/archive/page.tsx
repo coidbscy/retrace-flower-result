@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FlowerImage from "@/components/FlowerImage";
-import { getArchive, getFlowerCounts, removeFromArchive } from "@/lib/archive";
+import { getArchive, getFlowerCounts, getGardenSummary, removeFromArchive } from "@/lib/archive";
 import { FLOWER_LIST, getFlower } from "@/lib/flowers";
 import type { ArchiveEntry } from "@/lib/types";
 
@@ -118,6 +118,7 @@ export default function ArchivePage() {
 function FlowerGarden({ entries }: { entries: ArchiveEntry[] }) {
   const counts = getFlowerCounts(entries);
   const collectedCount = FLOWER_LIST.filter((f) => counts[f.id] > 0).length;
+  const gardenSummary = getGardenSummary(entries);
 
   return (
     <div
@@ -194,6 +195,21 @@ function FlowerGarden({ entries }: { entries: ArchiveEntry[] }) {
           );
         })}
       </div>
+
+      {gardenSummary && (
+        <p
+          style={{
+            margin: "16px 0 0",
+            paddingTop: 14,
+            borderTop: "1px solid var(--color-line)",
+            fontSize: 14,
+            lineHeight: 1.6,
+            color: "var(--color-ink)",
+          }}
+        >
+          {gardenSummary}
+        </p>
+      )}
     </div>
   );
 }

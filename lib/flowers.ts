@@ -31,6 +31,8 @@ export interface Flower {
   potential: string;
   /** "당신의 답변과 이 꽃" 문장 뒤에 덧붙는, 꽃말과 답변을 잇는 한 문장 */
   connectionHint: string;
+  /** 보관함 "나의 꽃밭"에서, 이 꽃이 가장 많이 나왔을 때 보여주는 누적형 위로의 말 (1~2문장) */
+  gardenSummary: string;
 }
 
 export const FLOWERS: Record<FlowerId, Flower> = {
@@ -52,6 +54,8 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     potential:
       "지금의 작은 시작이 생각보다 멀리까지 이어질 수 있어요. 프리지아의 맑은 향기처럼, 당신이 내딛는 걸음마다 주변에도 좋은 기운이 번질 거예요.",
     connectionHint: "새로운 무언가를 향해 마음이 움직이고 있다는 신호처럼 보였어요.",
+    gardenSummary:
+      "당신은 망설임보다 용기를 더 자주 선택해온 사람이에요. 새로운 길 앞에서 몇 번이고 다시 한 걸음을 내디뎌온 거예요.",
   },
   daisy: {
     id: "daisy",
@@ -71,6 +75,8 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     potential:
       "지금 품고 있는 그 작은 희망이, 시간이 지나면 당신을 지탱해주는 단단한 뿌리가 될 거예요.",
     connectionHint: "작아 보여도 분명한 희망의 빛을 붙잡고 계신 것 같았어요.",
+    gardenSummary:
+      "당신은 쉽게 포기하지 않는 사람이에요. 불안한 순간에도 매번 작은 희망을 붙잡아온 마음이 고스란히 쌓였어요.",
   },
   lotus: {
     id: "lotus",
@@ -90,6 +96,8 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     potential:
       "지금처럼 맑음을 지켜나간다면, 시간이 지날수록 더 단단하고 투명한 사람으로 피어날 거예요.",
     connectionHint: "흐려 보이는 순간에도 맑음을 지키려는 마음이 전해졌어요.",
+    gardenSummary:
+      "당신은 흔들리는 상황 속에서도 스스로를 잃지 않으려 애써온 사람이에요. 그 맑음을 지켜내려는 마음이 여러 번 드러났어요.",
   },
   peony: {
     id: "peony",
@@ -109,6 +117,8 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     potential:
       "지금은 조심스럽게 오므리고 있어도, 때가 되면 작약처럼 풍성하고 아름답게 마음을 펼칠 수 있을 거예요.",
     connectionHint: "조심스럽지만 분명한 마음이 느껴졌어요.",
+    gardenSummary:
+      "당신은 서두르지 않고 자신의 속도로 마음을 열어가는 사람이에요. 조심스러움 속에 담긴 진심이 여러 번 느껴졌어요.",
   },
   lavender: {
     id: "lavender",
@@ -127,6 +137,8 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     ],
     potential: "그 고요함 속에서 조금씩 정리된 마음이, 앞으로 당신을 더 단단하게 지켜줄 거예요.",
     connectionHint: "홀로 있는 시간 속에서 스스로를 돌보고 계신 듯했어요.",
+    gardenSummary:
+      "당신은 고요한 시간 속에서 스스로를 돌보는 법을 아는 사람이에요. 혼자만의 시간이 당신에게 여러 번 쉼이 되어준 것 같아요.",
   },
   sunflower: {
     id: "sunflower",
@@ -146,8 +158,14 @@ export const FLOWERS: Record<FlowerId, Flower> = {
     potential:
       "지금의 기다림이 헛되지 않을 거예요. 해바라기가 결국 활짝 피어나듯, 당신이 바라보는 그 방향으로 반드시 나아가게 될 거예요.",
     connectionHint: "한 곳을 향한 마음이 뚜렷하게 느껴졌어요.",
+    gardenSummary:
+      "당신은 바라보는 방향을 쉽게 바꾸지 않는 사람이에요. 기다림 속에서도 그 마음을 여러 번 지켜왔어요.",
   },
 };
+
+// 아직 뚜렷하게 반복되는 꽃이 없을 때(여러 꽃이 똑같이 1번씩 등) 보관함에 보여주는 문구.
+export const DIVERSE_GARDEN_SUMMARY =
+  "당신에게는 여러 모습이 골고루 담겨 있어요. 어느 한 가지로 정의되지 않는, 다채로운 마음을 가진 사람이에요.";
 
 export const FLOWER_LIST: Flower[] = Object.values(FLOWERS);
 

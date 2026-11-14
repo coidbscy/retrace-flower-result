@@ -1,4 +1,4 @@
-import { FLOWER_IDS, type FlowerId } from "./flowers";
+import { DIVERSE_GARDEN_SUMMARY, FLOWER_IDS, getFlower, type FlowerId } from "./flowers";
 import type { ArchiveEntry } from "./types";
 
 const STORAGE_KEY = "retrace-flower-archive";
@@ -31,6 +31,22 @@ export function getFlowerCounts(entries: ArchiveEntry[]): Record<FlowerId, numbe
     counts[entry.flower] = (counts[entry.flower] ?? 0) + 1;
   }
   return counts;
+}
+
+/** 지금까지 쌓인 꽃들을 바탕으로 한 위로의 말 한두 문장. 가장 많이 나온 꽃이 뚜렷하면
+ *  그 꽃의 gardenSummary를, 아직 다양하게만 나왔다면 공통 문구를 돌려줍니다.
+ *  결과가 1개 이하면(쌓인 패턴이라 할 게 없어) null을 돌려줍니다. */
+export function getGardenSummary(entries: ArchiveEntry[]): string | null {
+  if (entries.length < 2) return null;
+
+  const counts = getFlowerCounts(entries);
+  const maxCount = Math.max(...FLOWER_IDS.map((id) => counts[id]));
+  const topFlowers = FLOWER_IDS.filter((id) => counts[id] === maxCount);
+
+  if (maxCount >= 2 && topFlowers.length === 1) {
+    return getFlower(topFlowers[0]).gardenSummary;
+  }
+  return DIVERSE_GARDEN_SUMMARY;
 }
 
 export function removeFromArchive(id: string): void {
