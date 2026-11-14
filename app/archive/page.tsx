@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FlowerImage from "@/components/FlowerImage";
-import { getArchive, removeFromArchive } from "@/lib/archive";
-import { getFlower } from "@/lib/flowers";
+import { getArchive, getFlowerCounts, removeFromArchive } from "@/lib/archive";
+import { FLOWER_LIST, getFlower } from "@/lib/flowers";
 import type { ArchiveEntry } from "@/lib/types";
 
 export default function ArchivePage() {
@@ -33,6 +33,8 @@ export default function ArchivePage() {
       >
         보관함
       </h1>
+
+      {entries !== null && <FlowerGarden entries={entries} />}
 
       {entries === null && (
         <p style={{ textAlign: "center", color: "var(--color-ink-soft)" }}>
@@ -109,5 +111,89 @@ export default function ArchivePage() {
         })}
       </div>
     </main>
+  );
+}
+
+/** 6종 꽃을 한눈에 보여주는 요약. 아직 못 만난 꽃은 흐리게, 만난 꽃은 몇 번 만났는지 배지로 표시합니다. */
+function FlowerGarden({ entries }: { entries: ArchiveEntry[] }) {
+  const counts = getFlowerCounts(entries);
+  const collectedCount = FLOWER_LIST.filter((f) => counts[f.id] > 0).length;
+
+  return (
+    <div
+      style={{
+        background: "var(--color-paper)",
+        border: "1px solid var(--color-line)",
+        borderRadius: 20,
+        padding: "18px 16px",
+        marginBottom: 24,
+      }}
+    >
+      <p
+        style={{
+          margin: "0 0 4px",
+          fontFamily: "var(--font-display)",
+          fontSize: 16,
+          fontWeight: 600,
+        }}
+      >
+        나의 꽃밭
+      </p>
+      <p style={{ margin: "0 0 14px", fontSize: 13, color: "var(--color-ink-soft)" }}>
+        지금까지 {collectedCount} / {FLOWER_LIST.length}가지 꽃을 만났어요.
+      </p>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: 14,
+        }}
+      >
+        {FLOWER_LIST.map((flower) => {
+          const count = counts[flower.id];
+          return (
+            <div key={flower.id} style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  filter: count > 0 ? "none" : "grayscale(1)",
+                  opacity: count > 0 ? 1 : 0.35,
+                }}
+              >
+                <FlowerImage flower={flower} size={56} />
+                {count > 1 && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: -4,
+                      right: -4,
+                      background: "var(--color-yellow)",
+                      color: "var(--color-ink)",
+                      borderRadius: 999,
+                      fontSize: 11,
+                      fontWeight: 700,
+                      padding: "1px 6px",
+                      border: "1px solid var(--color-paper)",
+                    }}
+                  >
+                    ×{count}
+                  </span>
+                )}
+              </div>
+              <p
+                style={{
+                  margin: "6px 0 0",
+                  fontSize: 12,
+                  color: "var(--color-ink-soft)",
+                }}
+              >
+                {flower.name}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

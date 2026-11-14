@@ -6,16 +6,22 @@ import BudLoading from "@/components/BudLoading";
 import FlowerImage from "@/components/FlowerImage";
 import Section from "@/components/Section";
 import Reveal from "@/components/Reveal";
-import { addToArchive } from "@/lib/archive";
-import { getFlower } from "@/lib/flowers";
+import { addToArchive, getArchive } from "@/lib/archive";
+import { FLOWER_IDS, getFlower } from "@/lib/flowers";
 import type { ResultRecord } from "@/lib/types";
 
 type Status = "loading" | "analyzing" | "ready" | "notfound" | "error";
+
+interface CollectionInfo {
+  repeatCount: number;
+  justCompletedSet: boolean;
+}
 
 export default function ResultView({ id }: { id: string }) {
   const [status, setStatus] = useState<Status>("loading");
   const [record, setRecord] = useState<ResultRecord | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [collectionInfo, setCollectionInfo] = useState<CollectionInfo | null>(null);
   const savedToArchive = useRef(false);
 
   async function loadAndAnalyze() {
@@ -64,10 +70,28 @@ export default function ResultView({ id }: { id: string }) {
   useEffect(() => {
     if (status === "ready" && record?.analysis && !savedToArchive.current) {
       savedToArchive.current = true;
+      const flowerId = record.analysis.flower;
+
+      // 보관함에 넣기 전 상태를 기준으로, 이 꽃을 몇 번째 만나는지와
+      // 이번 저장으로 6종을 처음 다 모으게 되는지를 계산합니다.
+      const before = getArchive();
+      const countBefore = before.filter((e) => e.flower === flowerId).length;
+      const wasComplete = FLOWER_IDS.every((fid) =>
+        before.some((e) => e.flower === fid),
+      );
+      const nowComplete = FLOWER_IDS.every(
+        (fid) => fid === flowerId || before.some((e) => e.flower === fid),
+      );
+
       addToArchive({
         id,
-        flower: record.analysis.flower,
+        flower: flowerId,
         createdAt: record.createdAt,
+      });
+
+      setCollectionInfo({
+        repeatCount: countBefore + 1,
+        justCompletedSet: !wasComplete && nowComplete,
       });
     }
   }, [status, record, id]);
@@ -123,8 +147,48 @@ export default function ResultView({ id }: { id: string }) {
           <p style={{ color: "var(--color-ink-soft)", margin: 0 }}>
             {flower.englishName} · {flower.meaning}
           </p>
+          {collectionInfo && collectionInfo.repeatCount >= 2 && (
+            <p
+              style={{
+                marginTop: 10,
+                fontSize: 14,
+                color: "var(--color-brown)",
+              }}
+            >
+              이 꽃을 {collectionInfo.repeatCount}번째 만나셨어요.
+            </p>
+          )}
         </div>
       </Reveal>
+
+      {collectionInfo?.justCompletedSet && (
+        <Reveal>
+          <div
+            style={{
+              background: "var(--color-yellow-pale)",
+              border: "1px solid var(--color-yellow-deep)",
+              borderRadius: 20,
+              padding: "20px 22px",
+              marginBottom: 20,
+              textAlign: "center",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: 18,
+                fontWeight: 600,
+                margin: "0 0 6px",
+              }}
+            >
+              여섯 가지 꽃을 모두 만나셨어요
+            </p>
+            <p style={{ margin: 0, color: "var(--color-ink-soft)", fontSize: 14 }}>
+              그동안의 답변이 피워낸 꽃들이 보관함에 모두 모였어요.
+            </p>
+          </div>
+        </Reveal>
+      )}
 
       <Section title="당신의 답변과 이 꽃">
         <p>{analysis.connection}</p>
